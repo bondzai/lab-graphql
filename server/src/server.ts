@@ -19,7 +19,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-//highlight-start
 const typeDefs = gql(
     readFileSync(resolve(__dirname, "..", "schema.graphql"), {
         encoding: "utf-8",
@@ -30,13 +29,11 @@ const schema = buildSubgraphSchema({ typeDefs, resolvers });
 const server = new ApolloServer({
     schema,
 });
-// Note you must call `start()` on the `ApolloServer`
-// instance before passing the instance to `expressMiddleware`
+
 await server.start();
 
 app.use("/graphql", cors(), json(), expressMiddleware(server));
 
-// start the Express server
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
 });
